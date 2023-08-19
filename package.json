@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "predeploy": "npm run install",
-    "deploy":"npm run build",
+    
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
