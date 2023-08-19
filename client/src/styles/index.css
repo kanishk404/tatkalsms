@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Roboto:wght@300&display=swap');
+:root {
+  font-family: 'Roboto Mono', monospace;
+  line-height: 1.5;
+  --toastify-color-dark: #3C3C3C;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+body{
+  margin : auto ;
+  padding: 0;
+  overflow: hidden;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+
+.apple{
+  border-radius: 10px;
+}
+
+.Toastify__toast-container{
+  border-radius: 10px !important;
+}
+
+
+::-webkit-scrollbar{
+  display: none;
+}
