@@ -4,7 +4,7 @@
   line-height: 1.5;
   --toastify-color-dark: #3C3C3C;
 
-  color-scheme: light dark;
+  color-scheme:  dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
@@ -37,3 +37,4 @@ body{
 ::-webkit-scrollbar{
   display: none;
 }
+

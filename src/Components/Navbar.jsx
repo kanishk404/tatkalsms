@@ -55,21 +55,9 @@ const Balance = styled.div`
 
 
 
-const Navbar = ({isLoggedIn , setLoggedIn}) => {
+const Navbar = ({isLoggedIn , setLoggedIn , username, balance}) => {
     const navigate = useNavigate()
-    const [username, setUserName] = useState("")
-    const [balance, setBalance] = useState()
-    
-    
-    useEffect(()=>{
-        if (localStorage.getItem("token")){
-            setLoggedIn(true)
-            setBalance(localStorage.getItem("balance"))
-            setUserName(localStorage.getItem("username"))
-        }
-    
-        
-    },[])
+   
 
 
     const handleLogout = () =>{

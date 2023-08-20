@@ -87,7 +87,7 @@ const Span = styled.span`
 `;
 
 const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
-
+  const [loading, setLoading] = useState(false);
   
 
   const navigate = useNavigate();
@@ -113,6 +113,7 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
       setLoginData({
         ...LogInData,
         [event.target.name]: event.target.value,
+        
       });
     
     } else {
@@ -125,9 +126,13 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
   };
 
   const HandleLogin = () => {
+   
+ 
+    
     axios
-      .post("http://192.168.29.72:8181/login", LogInData)
+      .post("https://tatkalsms.azurewebsites.net/login", LogInData)
       .then((response) => {
+        
         toast.success(response.data.message+"🪄")
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("username", response.data.user.name)
@@ -137,6 +142,7 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
           setLoggedIn(true)
           navigate("/dashboard")
         }, 2000)
+
       })
       .catch((error) => {
         if(error.response.status=== 503){
@@ -153,10 +159,11 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
             toast.error(error.response.data.message+"🥲")
         }
       });
+      
   };
 
   const HandleRegister = ()=>{
-    axios.post("http://192.168.29.72:8181/register", RegisterData).then((response)=>{
+    axios.post("https://tatkalsms.azurewebsites.net/register", RegisterData).then((response)=>{
         toast.success(response.data.message+"🪄")
         setTimeout(()=>{
             setLogin(true)
