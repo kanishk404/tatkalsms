@@ -43,6 +43,7 @@ const ProviderDiv = styled.div`
 `;
 
 const BuyButton = styled.div`
+
   position: relative;
   text-align: center;
   padding: 4px;
@@ -52,7 +53,7 @@ const BuyButton = styled.div`
   font-size: 16px;
   font-weight: bold;
   box-shadow: 0px 0px 2px 2px rgb(58, 59, 59);
-  border-radius: 10px;
+  border-radius: 10px 0;
   border: none;
   cursor: pointer;
   transition: all 0.4s ease;
@@ -67,7 +68,7 @@ const BuyButton = styled.div`
     right: 0;
     width: 90px;
     height: 100%;
-    border-radius: 0 10px 10px 0;
+    border-radius: 10px 0;
     background-color: rgb(71, 55, 28);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -145,7 +146,7 @@ const CustomButton = styled.button`
   font-size: 16px;
   font-weight: bold;
   box-shadow: 0px 0px 2px 2px rgb(58, 59, 59);
-  border-radius: 10px;
+  border-radius: 10px 0;
   border: none;
   cursor: pointer;
   transition: all 0.4s ease;

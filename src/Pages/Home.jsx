@@ -30,7 +30,7 @@ const Button = styled.button`
 width: 50%;
 height: 4%;
 cursor: pointer;
-border-radius: 10px;
+border-radius: 10px 0;
 border:none;
 &:hover{
   transform: scale(1.1);

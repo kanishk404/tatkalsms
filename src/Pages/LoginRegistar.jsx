@@ -18,7 +18,8 @@ const Main = styled.div`
   background-color: rgb(43, 43, 43);
   gap: 12px;
   width: 40%;
-  height: 70%;
+  height: auto;
+  min-height: 70%;
   box-shadow: 0px 0px 2px 2px rgb(58, 59, 59);
   border: none;
   border-radius: 10px;
@@ -28,12 +29,12 @@ const Main = styled.div`
   transition: all 0.3s ease-in-out;
 
   @media screen and (max-width: 1000px) {
-    width: 90%;
+    width: 90% !important;
     padding: 20px;
     margin-right: 10px;
-    height: 80%;
+    min-height:60%;
   }
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1500px) {
     padding: 20px;
     width:38%;
   }
@@ -64,13 +65,14 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
+
   width: 50%;
   height: 40px;
   margin-top: 16px;
   font-size: 18px;
   padding: 10px;
   box-shadow: 0px 0px 2px 2px rgb(58, 59, 59);
-  border-radius: 10px;
+  border-radius: 10px 0;
   border: none;
   cursor: pointer;
   transition: all 0.4s ease;
@@ -150,7 +152,7 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
   };
 
   const HandleLogin = () => {
-   
+    const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
  
     
     axios
@@ -195,7 +197,7 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
         
     })
     .catch((error)=>{
-        alert(error.response.data.message)
+        toast(error.response.data.message + "😒", {position:"top-center"})
     })
   }
 
