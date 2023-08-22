@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import image from "../assets/image.png"
 import { useNavigate } from "react-router-dom";
+
+
 const Wrapper = styled.div`
   display: flex;
  
@@ -16,6 +18,9 @@ const Wrapper = styled.div`
     width:100% !important; 
     flex-direction:column;
     };
+    @media screen and (max-width:1400px) {
+  width: 70%;
+}
 `;
 const ContentDiv = styled.div``;
 const MainHeading = styled.h1``;
@@ -37,9 +42,11 @@ const Left = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2rem;
- 
   margin: auto;
   height: 90vh;
+  @media screen and (max-width:1400px) {
+  
+ }
 `
 const Right = styled.div`
  @media screen and (max-width:1000px) {
@@ -71,10 +78,10 @@ const Home = ({isLoggedIn}) => {
      
         <ContentDiv>
           <MainHeading>
-             Unlock Privacy with <Span color="#FF123733">Temporary Phone Numbers!</Span>
+             Unlock Privacy with <Span color="rgba(232,173,46,1)">Temporary Phone Numbers!</Span>
           </MainHeading>
           <Small>
-          <Span color="">
+          <Span >
 
           Protect Your Privacy:</Span> Get Temporary Phone Numbers for OTP Verification with our SAS Web App. Keep your real number private while ensuring seamless verification. Try it now!
           </Small>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,6 @@ const Main = styled.div`
   flex-direction: column;
   background-color: rgb(43, 43, 43);
   gap: 12px;
-
   width: 40%;
   height: 70%;
   box-shadow: 0px 0px 2px 2px rgb(58, 59, 59);
@@ -33,6 +32,10 @@ const Main = styled.div`
     padding: 20px;
     margin-right: 10px;
     height: 80%;
+  }
+  @media screen and (max-width: 1400px) {
+    padding: 20px;
+    width:38%;
   }
 `;
 
@@ -52,6 +55,12 @@ const Input = styled.input`
   @media screen and (max-width: 600px) {
     width: 100%;
   }
+  @media screen and (max-width: 1400px) {
+    padding: 20px;
+    font-size: 16px;
+    height: 16px;
+  
+  }
 `;
 
 const Button = styled.button`
@@ -68,6 +77,12 @@ const Button = styled.button`
   &:hover {
     background-color: #433218 ;
   }
+  @media screen and (max-width: 1400px) {
+    
+    font-size: 16px;
+    height: 32px;
+  
+  }
 `;
 
 const BottomNote = styled.small`
@@ -75,7 +90,15 @@ const BottomNote = styled.small`
 `;
 
 const Heading = styled.h1`
-color: #D9AC6A;`;
+color: #D9AC6A;
+@media screen and (max-width: 1400px) {
+    
+    font-size: 24px;
+  
+  
+  }
+
+`;
 const Span = styled.span`
   margin-top: 20px;
   cursor: pointer;
@@ -84,6 +107,7 @@ const Span = styled.span`
   &:hover {
     color: lightsteelblue;
   }
+
 `;
 
 const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
