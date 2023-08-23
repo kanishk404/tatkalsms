@@ -18,14 +18,24 @@ const Wrapper = styled.div`
     width:100% !important; 
     flex-direction:column;
     };
-    @media screen and (max-width:1400px) {
+    @media screen and (max-width:1500px) {
   width: 70%;
+ 
 }
 `;
 const ContentDiv = styled.div``;
-const MainHeading = styled.h1``;
+const MainHeading = styled.h1`
 
-const Small = styled.h4``;
+@media screen and (max-width:1500px) {
+    font-size: 16px;
+ }
+`;
+
+const Small = styled.h4`
+@media screen and (max-width:1500px) {
+    font-size: 14px;
+ }
+`;
 const Button = styled.button`
 width: 50%;
 height: 4%;
@@ -44,8 +54,8 @@ const Left = styled.div`
   gap: 2rem;
   margin: auto;
   height: 90vh;
-  @media screen and (max-width:1400px) {
-  
+  @media screen and (max-width:1500px) {
+    font-size: 16px;
  }
 `
 const Right = styled.div`

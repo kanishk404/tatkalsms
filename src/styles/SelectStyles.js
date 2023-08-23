@@ -6,7 +6,7 @@ export const CountrSelectStyle ={
       borderRadius:"10px",
       outline:"none",
       width:"90%",
-      height:"3rem",
+      height:"2.5rem",
       
       cursor:"pointer",
       marginBottom :"40px"
@@ -70,7 +70,7 @@ export const CountrSelectStyle ={
       borderRadius:"10px",
       outline:"none",
       width:"90%",
-      height:"3rem",
+      height:"2.8rem",
       color:"white",
       cursor:"pointer",
      

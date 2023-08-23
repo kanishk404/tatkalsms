@@ -56,7 +56,7 @@ const Input = styled.input`
   @media screen and (max-width: 600px) {
     width: 100%;
   }
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1500px) {
     padding: 20px;
     font-size: 16px;
     height: 16px;
@@ -79,7 +79,7 @@ const Button = styled.button`
   &:hover {
     background-color: #433218 ;
   }
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1500px) {
     
     font-size: 16px;
     height: 32px;
@@ -93,7 +93,7 @@ const BottomNote = styled.small`
 
 const Heading = styled.h1`
 color: #D9AC6A;
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1500px) {
     
     font-size: 24px;
   
@@ -201,13 +201,15 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
     })
   }
 
+
+
   return (
     <>
       <Wrapper>
         <Main>
           {isLogin ? (
             <>
-              <Heading>Login</Heading>
+              <Heading className="heading">Login</Heading>
               <Input
                 type="email"
                 name="email"
@@ -222,7 +224,7 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
                 onChange={HandleChange}
                 value={LogInData.password}
               />
-              <Button onClick={HandleLogin}>Login</Button>
+              <Button onClick={HandleLogin}>Login </Button>
               <Span onClick={() => setLogin(false)}>
                 New? Create Account Now
               </Span>

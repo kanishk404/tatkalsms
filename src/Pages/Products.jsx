@@ -85,7 +85,7 @@ const NumberBox = styled.div`
   border: none;
   border-radius: 10px;
   background-color: #242424;
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1500px) {
     height: 42px;
   }
   &::after {
@@ -153,7 +153,7 @@ const CustomButton = styled.button`
   &:hover {
     background-color: #433218;
   }
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1500px) {
     margin-top: 0;
       
   }
@@ -187,7 +187,7 @@ const Heading = styled.h2`
   @media screen and (max-width: 1000px) {
     font-size: 16px;
   }
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1500px) {
     font-size: 17px;
   }
 `;
