@@ -77,6 +77,21 @@ const BuyButton = styled.div`
     opacity: 1;
     background-color: #433218;
   }
+  @media screen and (max-width: 1500px) {
+    font-size: 14px;
+    width: 70%;
+    left: 7%;
+    height: auto;
+      
+  }
+  @media screen and (max-width: 1000px) {
+    font-size: 12.5px;
+    width: 80%;
+    left: 7%;
+    height: auto;
+      
+  }
+
 `;
 const NumberBox = styled.div`
   position: relative;
@@ -208,6 +223,9 @@ function camelCase(str) {
     .replace(/\s+/g, "");
 }
 
+
+
+
 const Products = ({ isLoggedIn, setLoggedIn }) => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -218,6 +236,7 @@ const Products = ({ isLoggedIn, setLoggedIn }) => {
   const [country, setCountry] = useState("india");
   const [service, setService] = useState(null);
   const [serviceData, setServiceData] = useState(null);
+  const [operator, setOperator] = useState("")
   const handleCountryChange = (selectedCountry) => {
     setCountry(selectedCountry.value);
   };
@@ -232,7 +251,7 @@ const Products = ({ isLoggedIn, setLoggedIn }) => {
     setService(selectedService.value);
     setServiceData(countryData[selectedService.value]);
   };
-
+  
   return (
     <>
       {isLoggedIn && (
@@ -247,7 +266,6 @@ const Products = ({ isLoggedIn, setLoggedIn }) => {
               placeholder="Select Country"
               theme={(theme) => ({
                 ...theme,
-
                 colors: {
                   ...theme.colors,
                   primary25: "#3A3A3A",
@@ -280,6 +298,9 @@ const Products = ({ isLoggedIn, setLoggedIn }) => {
                     Price: {parseInt(serviceData[key].cost + 24)} Rs
                   </BuyButton>
                 ))}
+                {serviceData && 
+                  <BuyButton>Any (Fastest)</BuyButton>
+                }
             </ProviderDiv>
           </Main>
           <Main width={"60%"} display={"none"}>

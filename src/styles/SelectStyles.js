@@ -1,3 +1,5 @@
+
+
 export const CountrSelectStyle ={
     control: (base, state) => ({
       ...base,
@@ -6,12 +8,17 @@ export const CountrSelectStyle ={
       borderRadius:"10px",
       outline:"none",
       width:"90%",
-      height:"2.5rem",
+      height:"2.1rem",
       
       cursor:"pointer",
-      marginBottom :"40px"
+      marginBottom :"40px",
     
-    
+      "@media screen and (max-width: 1500px)": {
+        height:"2rem",
+    },
+    "@media screen and (max-width: 1000px)": {
+      height:"1.8rem",
+  },
     }),
     menuList:(base,state)=>({
       ...base,
@@ -21,7 +28,12 @@ export const CountrSelectStyle ={
     singleValue: (provided, state) => ({
       ...provided,
       color: '#DEBA85', 
-      fontSize:"1.2rem"
+      "@media screen and (max-width: 1500px)": {
+        fontSize:"16px",
+    },
+      "@media screen and (max-width: 1000px)": {
+        fontSize:"14px",
+    },
     }),
     menu: (base) => ({
       ...base,
@@ -39,7 +51,16 @@ export const CountrSelectStyle ={
       boderRadius:"10px",
       ":hover":{
         backgroundColor:'#433218',
-      }
+      },
+      "@media screen and (max-width: 1500px)": {
+        fontSize:"16px",
+        padding:"12px"
+    },
+      "@media screen and (max-width: 1000px)": {
+        fontSize:"14px",
+        padding:"9px"
+    },
+      
     }),
     placeholder: (provided) => ({
         ...provided,
@@ -61,7 +82,13 @@ export const CountrSelectStyle ={
     placeholder: (provided) => ({
         ...provided,
         fontSize: '16px',
-        color:"#FFE6C0"
+        color:"#FFE6C0",
+        "@media screen and (max-width: 1500px)": {
+          fontSize:"14px",
+      },
+        "@media screen and (max-width: 1000px)": {
+          fontSize:"12px",
+      },
       }),
     control: (base, state) => ({
       ...base,
@@ -74,7 +101,12 @@ export const CountrSelectStyle ={
       color:"white",
       cursor:"pointer",
      
-     
+      "@media screen and (max-width: 1500px)": {
+        height:"2rem"
+    },
+      "@media screen and (max-width: 1000px)": {
+        height:"1.8rem",
+    },
     
     }),
     menuList:(base,state)=>({
@@ -95,7 +127,13 @@ export const CountrSelectStyle ={
     singleValue: (provided, state) => ({
       ...provided,
       color: '#DEBA85', 
-      fontSize:"1rem"
+      fontSize:"1rem",
+      "@media screen and (max-width: 1500px)": {
+        fontSize:"16px",
+    },
+      "@media screen and (max-width: 1000px)": {
+        fontSize:"14px",
+    },
     }),
    
     option:(base,state)=>({
@@ -107,7 +145,15 @@ export const CountrSelectStyle ={
       
       ":hover":{
         backgroundColor:'#433218',
-      }
+      },
+      "@media screen and (max-width: 1500px)": {
+        fontSize:"16px",
+        padding:"12px"
+    },
+      "@media screen and (max-width: 1000px)": {
+        fontSize:"14px",
+        padding:"9px"
+    },
     }),
     input: (provided) => ({
       ...provided,

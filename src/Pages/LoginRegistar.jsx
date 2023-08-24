@@ -1,9 +1,10 @@
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+import hide from "../assets/hide.png";
+import view from "../assets/view.png";
 const Wrapper = styled.div`
   width: 100vw;
   height: 90vh;
@@ -13,6 +14,7 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
+  
   display: flex;
   flex-direction: column;
   background-color: rgb(43, 43, 43);
@@ -32,11 +34,11 @@ const Main = styled.div`
     width: 90% !important;
     padding: 20px;
     margin-right: 10px;
-    min-height:60%;
+    min-height: 60%;
   }
   @media screen and (max-width: 1500px) {
     padding: 20px;
-    width:38%;
+    width: 38%;
   }
 `;
 
@@ -60,12 +62,10 @@ const Input = styled.input`
     padding: 20px;
     font-size: 16px;
     height: 16px;
-  
   }
 `;
 
 const Button = styled.button`
-
   width: 50%;
   height: 40px;
   margin-top: 16px;
@@ -77,13 +77,11 @@ const Button = styled.button`
   cursor: pointer;
   transition: all 0.4s ease;
   &:hover {
-    background-color: #433218 ;
+    background-color: #433218;
   }
   @media screen and (max-width: 1500px) {
-    
     font-size: 16px;
     height: 32px;
-  
   }
 `;
 
@@ -92,32 +90,49 @@ const BottomNote = styled.small`
 `;
 
 const Heading = styled.h1`
-color: #D9AC6A;
-@media screen and (max-width: 1500px) {
-    
+  color: #d9ac6a;
+  @media screen and (max-width: 1500px) {
     font-size: 24px;
-  
-  
   }
-
 `;
 const Span = styled.span`
   margin-top: 20px;
   cursor: pointer;
   transition: all 0.4s ease;
-  color: #D9AC6A;
+  color: #d9ac6a;
   &:hover {
     color: lightsteelblue;
   }
-
+`;
+const PasswordContainer = styled.div`
+  position: relative;
+  width: 50%;
+  > input {
+    width: 100%;
+  }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+ 
 `;
 
-const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
+const PasswordViewer = styled.img`
+   position: absolute;
+  cursor: pointer;
+  top: 50%;
+  z-index: 99;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 25px;
+
+ 
+`;
+
+const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
   const [loading, setLoading] = useState(false);
-  
 
   const navigate = useNavigate();
-  
+  const [isVisible, setVisible] = useState(false)
   const [isLogin, setLogin] = useState(true);
   const [LogInData, setLoginData] = useState({ email: "", password: "" });
   const [RegisterData, setRegisterData] = useState({
@@ -126,82 +141,73 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
     password: "",
   });
 
-  useEffect(()=>{
-    if (localStorage.getItem("token")){
-    setLogin(true)
-    navigate("/dashboard");
-  }
-  })
-
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLogin(true);
+      navigate("/dashboard");
+    }
+  });
 
   const HandleChange = (event) => {
     if (isLogin) {
       setLoginData({
         ...LogInData,
         [event.target.name]: event.target.value,
-        
       });
-    
     } else {
       setRegisterData({
         ...RegisterData,
         [event.target.name]: event.target.value,
       });
-    
     }
   };
 
+  const HandleVisible =  ()=>{
+    setVisible(!isVisible)
+  }
+
   const HandleLogin = () => {
     const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
- 
-    
+
     axios
       .post("https://tatkalsms.azurewebsites.net/login", LogInData)
       .then((response) => {
-        
-        toast.success(response.data.message+"🪄")
-        localStorage.setItem("token", response.data.token)
-        localStorage.setItem("username", response.data.user.name)
-        localStorage.setItem("balance", response.data.user.balance)
-        console.log(response.data.user)
-        setTimeout(()=>{
-          setLoggedIn(true)
-          navigate("/dashboard")
-        }, 2000)
-
+        toast.success(response.data.message + "🪄");
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("username", response.data.user.name);
+        localStorage.setItem("balance", response.data.user.balance);
+        console.log(response.data.user);
+        setTimeout(() => {
+          setLoggedIn(true);
+          navigate("/dashboard");
+        }, 2000);
       })
       .catch((error) => {
-        if(error.response.status=== 503){
-            toast.error(error.response.data.message+"🤔")
-            
-        }
-        else if (error.response.status===402){
-            toast.error(error.response.data.message+"🫤")
-        }
-        else if(error.response.status===401){
-            toast.error(error.response.data.message+"🤯")
-        }
-        else{
-            toast.error(error.response.data.message+"🥲")
+        if (error.response.status === 503) {
+          toast.error(error.response.data.message + "🤔");
+        } else if (error.response.status === 402) {
+          toast.error(error.response.data.message + "🫤");
+        } else if (error.response.status === 401) {
+          toast.error(error.response.data.message + "🤯");
+        } else {
+          toast.error(error.response.data.message + "🥲");
         }
       });
-      
   };
 
-  const HandleRegister = ()=>{
-    axios.post("https://tatkalsms.azurewebsites.net/register", RegisterData).then((response)=>{
-        toast.success(response.data.message+"🪄")
-        setTimeout(()=>{
-            setLogin(true)
-        },5000)
-        
-    })
-    .catch((error)=>{
-        toast(error.response.data.message + "😒", {position:"top-center"})
-    })
-  }
-
-
+  const HandleRegister = () => {
+    axios
+      .post("https://tatkalsms.azurewebsites.net/register", RegisterData)
+      .then((response) => {
+        toast.success(response.data.message + "🪄");
+        setTimeout(() => {
+          setLogin(true);
+        }, 5000);
+      })
+      .catch((error) => {
+        toast(error.response.data.message + "😒", { position: "top-center" });
+      });
+  };
 
   return (
     <>
@@ -217,13 +223,18 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
                 onChange={HandleChange}
                 value={LogInData.email}
               />
-              <Input
-                type="password"
+              <PasswordContainer>
+              <Input 
+              
+                type={isVisible?"text":"password"}
                 name="password"
                 placeholder="Password"
                 onChange={HandleChange}
                 value={LogInData.password}
               />
+              <PasswordViewer onClick={HandleVisible} key={isVisible} src={isVisible? view:hide} />
+              </PasswordContainer>
+              
               <Button onClick={HandleLogin}>Login </Button>
               <Span onClick={() => setLogin(false)}>
                 New? Create Account Now
@@ -246,20 +257,26 @@ const LoginRegistar = ({isLoggedIn , setLoggedIn}) => {
                 onChange={HandleChange}
                 value={RegisterData.email}
               />
+              
+              <PasswordContainer>
               <Input
-                type="password"
+              type={isVisible?"text":"password"}
+                
                 name="password"
                 placeholder="Password"
                 onChange={HandleChange}
                 value={RegisterData.password}
               />
+              <PasswordViewer onClick={HandleVisible} key={isVisible} src={isVisible? hide:view} />
+              </PasswordContainer>
               <Button onClick={HandleRegister}>Register</Button>
               <Span onClick={() => setLogin(true)}>
                 {" "}
                 Have A Account Login Now!
               </Span>
               <BottomNote>
-                You can Use any Unique Email to Login we Dont Verify Email!
+  
+                !Remember To Save Your Password . Once Forgotten You Can Not Reset.
               </BottomNote>
             </>
           )}
