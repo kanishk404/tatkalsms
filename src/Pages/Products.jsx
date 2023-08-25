@@ -7,6 +7,9 @@ import {
   ServiceSelectStyles,
 } from "../styles/SelectStyles.js";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -233,10 +236,64 @@ const Products = ({ isLoggedIn, setLoggedIn }) => {
       navigate("/login");
     }
   }, []);
+  
+  
   const [country, setCountry] = useState("india");
   const [service, setService] = useState(null);
   const [serviceData, setServiceData] = useState(null);
   const [operator, setOperator] = useState("")
+  const [price , setPrice] = useState(0)
+  const [trigger, setTrigger] = useState(0)
+  
+
+
+  const HandleBuy = () =>{
+    console.log("Reached HEre")
+    if(country && service && operator){
+      const data = {
+        country:country,
+        service:service,
+        provider:operator,
+        price:price
+      }
+     
+
+      const config = {
+        'Content-Type': 'application/json',
+        headers:{
+          'Authorization':'Bearer '+ localStorage.getItem('token')
+        }
+        
+      }
+      console.log(data)
+      axios.post("https://tatkalsms.azurewebsites.net/buy",data, config )
+      .then((response)=>{
+        console.log(response)
+      })
+      .catch((error)=>{
+       
+        let code = error.response.status
+        
+        if(code===610)toast.error("Snap! Something Horrible Happend 🫤")
+        else if (code === 600)toast.error("Numbers out of Stock")
+        else if (code === 601 )toat.error("Low on Balance")
+        
+      })
+    }
+    
+  }
+
+
+
+  // Handle Buynig Login
+  useEffect(() => {
+    if(operator)HandleBuy()
+  }, [operator, trigger]);
+
+
+
+
+  // Handle Country Change
   const handleCountryChange = (selectedCountry) => {
     setCountry(selectedCountry.value);
   };
@@ -292,15 +349,21 @@ const Products = ({ isLoggedIn, setLoggedIn }) => {
             <ProviderDiv>
               {serviceData &&
                 Object.keys(serviceData).map((key) => (
-                  <BuyButton key={key}>
+                  
+                  <BuyButton key={key} onClick={()=> {
+                    
+                    setOperator(key)
+                    setPrice(parseInt(serviceData[key].cost + 24))
+                    setTrigger((trigger)=> trigger +=1)
+                  } }>
                     {" "}
                     Buy {key[0].toUpperCase() + key.slice(1, key.length)} -
                     Price: {parseInt(serviceData[key].cost + 24)} Rs
                   </BuyButton>
-                ))}
-                {serviceData && 
-                  <BuyButton>Any (Fastest)</BuyButton>
+                ))
+               
                 }
+               
             </ProviderDiv>
           </Main>
           <Main width={"60%"} display={"none"}>

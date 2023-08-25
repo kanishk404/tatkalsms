@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import hide from "../assets/hide.png";
 import view from "../assets/view.png";
+import { PropagateLoader } from "react-spinners";
 const Wrapper = styled.div`
   width: 100vw;
   height: 90vh;
@@ -14,7 +15,6 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  
   display: flex;
   flex-direction: column;
   background-color: rgb(43, 43, 43);
@@ -67,6 +67,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   width: 50%;
+
   height: 40px;
   margin-top: 16px;
   font-size: 18px;
@@ -113,26 +114,23 @@ const PasswordContainer = styled.div`
   @media screen and (max-width: 600px) {
     width: 100%;
   }
- 
 `;
 
 const PasswordViewer = styled.img`
-   position: absolute;
+  position: absolute;
   cursor: pointer;
   top: 50%;
   z-index: 99;
   right: 10px;
   transform: translateY(-50%);
   width: 25px;
-
- 
 `;
 
 const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const [isVisible, setVisible] = useState(false)
+  const [isVisible, setVisible] = useState(false);
   const [isLogin, setLogin] = useState(true);
   const [LogInData, setLoginData] = useState({ email: "", password: "" });
   const [RegisterData, setRegisterData] = useState({
@@ -148,6 +146,8 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
     }
   });
 
+  
+
   const HandleChange = (event) => {
     if (isLogin) {
       setLoginData({
@@ -162,13 +162,13 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
     }
   };
 
-  const HandleVisible =  ()=>{
-    setVisible(!isVisible)
-  }
+  const HandleVisible = () => {
+    setVisible(!isVisible);
+  };
 
   const HandleLogin = () => {
-    const serverAddress = import.meta.env.VITE_SERVER_ADDRESS;
-
+   
+    setLoading(true);
     axios
       .post("https://tatkalsms.azurewebsites.net/login", LogInData)
       .then((response) => {
@@ -177,12 +177,12 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
         localStorage.setItem("username", response.data.user.name);
         localStorage.setItem("balance", response.data.user.balance);
         console.log(response.data.user);
-        setTimeout(() => {
-          setLoggedIn(true);
-          navigate("/dashboard");
-        }, 2000);
+        setLoading(false);
+        setLoggedIn(true);
+        navigate("/dashboard");
       })
       .catch((error) => {
+        setLoading(false);
         if (error.response.status === 503) {
           toast.error(error.response.data.message + "🤔");
         } else if (error.response.status === 402) {
@@ -196,15 +196,18 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
   };
 
   const HandleRegister = () => {
+    setLoading(true);
     axios
       .post("https://tatkalsms.azurewebsites.net/register", RegisterData)
       .then((response) => {
+        setLoading(false);
         toast.success(response.data.message + "🪄");
         setTimeout(() => {
           setLogin(true);
         }, 5000);
       })
       .catch((error) => {
+        setLoading(false);
         toast(error.response.data.message + "😒", { position: "top-center" });
       });
   };
@@ -224,18 +227,23 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
                 value={LogInData.email}
               />
               <PasswordContainer>
-              <Input 
-              
-                type={isVisible?"text":"password"}
-                name="password"
-                placeholder="Password"
-                onChange={HandleChange}
-                value={LogInData.password}
-              />
-              <PasswordViewer onClick={HandleVisible} key={isVisible} src={isVisible? view:hide} />
+                <Input
+                  type={isVisible ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  onChange={HandleChange}
+                  value={LogInData.password}
+                />
+                <PasswordViewer
+                  onClick={HandleVisible}
+                  key={isVisible}
+                  src={isVisible ? view : hide}
+                />
               </PasswordContainer>
-              
-              <Button onClick={HandleLogin}>Login </Button>
+
+              <Button onClick={HandleLogin}>
+                {isLoading ? <PropagateLoader color=" #d9ac6a" /> : "Login"}{" "}
+              </Button>
               <Span onClick={() => setLogin(false)}>
                 New? Create Account Now
               </Span>
@@ -257,26 +265,31 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
                 onChange={HandleChange}
                 value={RegisterData.email}
               />
-              
+
               <PasswordContainer>
-              <Input
-              type={isVisible?"text":"password"}
-                
-                name="password"
-                placeholder="Password"
-                onChange={HandleChange}
-                value={RegisterData.password}
-              />
-              <PasswordViewer onClick={HandleVisible} key={isVisible} src={isVisible? hide:view} />
+                <Input
+                  type={isVisible ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  onChange={HandleChange}
+                  value={RegisterData.password}
+                />
+                <PasswordViewer
+                  onClick={HandleVisible}
+                  key={isVisible}
+                  src={isVisible ? hide : view}
+                />
               </PasswordContainer>
-              <Button onClick={HandleRegister}>Register</Button>
+              <Button onClick={HandleRegister}>
+                {isLoading ? <PropagateLoader color=" #d9ac6a" /> : "Register"}
+              </Button>
               <Span onClick={() => setLogin(true)}>
                 {" "}
                 Have A Account Login Now!
               </Span>
               <BottomNote>
-  
-                !Remember To Save Your Password . Once Forgotten You Can Not Reset.
+                !Remember To Save Your Password . Once Forgotten You Can Not
+                Reset.
               </BottomNote>
             </>
           )}
