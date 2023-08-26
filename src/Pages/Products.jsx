@@ -8,7 +8,7 @@ import {
 } from "../styles/SelectStyles.js";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { ClimbingBoxLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
@@ -46,7 +46,6 @@ const ProviderDiv = styled.div`
 `;
 
 const BuyButton = styled.div`
-
   position: relative;
   text-align: center;
   padding: 4px;
@@ -85,18 +84,18 @@ const BuyButton = styled.div`
     width: 70%;
     left: 7%;
     height: auto;
-      
   }
   @media screen and (max-width: 1000px) {
     font-size: 12.5px;
     width: 80%;
     left: 7%;
     height: auto;
-      
   }
-
 `;
 const NumberBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   width: 60%;
   height: 52px;
@@ -128,9 +127,14 @@ const NumberBox = styled.div`
 `;
 
 const OtpDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   position: relative;
   width: 60%;
-  height: 62px;
+  height: 42px;
+  margin-bottom: 10px;
   border: none;
   border-radius: 10px;
   background-color: #242424;
@@ -173,10 +177,8 @@ const CustomButton = styled.button`
   }
   @media screen and (max-width: 1500px) {
     margin-top: 0;
-      
   }
 `;
-
 
 const ButtonDiv = styled.div`
   display: flex;
@@ -226,69 +228,204 @@ function camelCase(str) {
     .replace(/\s+/g, "");
 }
 
+// modal
 
+const Modal = styled.div`
+  position: absolute;
+  background-color: rgb(132, 132, 132);
+  width: 30%;
+  height: 240px;
+  z-index: 9999;
+  border: none;
 
+  box-shadow: 0px 0px 2px 2px rgb(58, 59, 59);
+  display: ${(props) => props.display};
+  background-color: rgb(43, 43, 43);
 
-const Products = ({ isLoggedIn, setLoggedIn }) => {
+  align-items: center;
+  justify-content: center;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  @media screen and (max-width: 1000px) {
+    width: 80%;
+    height: 35%;
+  }
+`;
+
+// Styled Component Above
+
+//  App Starts From Here
+
+const Products = ({
+  isLoggedIn,
+  setLoggedIn,
+  purchase,
+  setPurchase,
+  isBuying,
+  setBuying = { setBuying },
+}) => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
     }
   }, []);
-  
-  
+
   const [country, setCountry] = useState("india");
   const [service, setService] = useState(null);
   const [serviceData, setServiceData] = useState(null);
-  const [operator, setOperator] = useState("")
-  const [price , setPrice] = useState(0)
-  const [trigger, setTrigger] = useState(0)
-  
+  const [operator, setOperator] = useState("");
+  const [price, setPrice] = useState(0);
+  const [trigger, setTrigger] = useState(0);
+  const [number, setNumber] = useState(123456789);
+  const [orderId, setOrderId] = useState();
+  const [sms, setSms] = useState([]);
 
+  const config = {
+    "Content-Type": "application/json",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  };
 
-  const HandleBuy = () =>{
-    console.log("Reached HEre")
-    if(country && service && operator){
+  const HandleBuy = () => {
+    if (country && service && operator && !purchase) {
+      setBuying(true);
       const data = {
-        country:country,
-        service:service,
-        provider:operator,
-        price:price
-      }
-     
-
-      const config = {
-        'Content-Type': 'application/json',
-        headers:{
-          'Authorization':'Bearer '+ localStorage.getItem('token')
-        }
-        
-      }
-      console.log(data)
-      axios.post("https://tatkalsms.azurewebsites.net/buy",data, config )
-      .then((response)=>{
-        console.log(response)
-      })
-      .catch((error)=>{
-       
-        let code = error.response.status
-        
-        if(code===610)toast.error("Snap! Something Horrible Happend 🫤")
-        else if (code === 600)toast.error("Numbers out of Stock")
-        else if (code === 601 )toat.error("Low on Balance")
-        
-      })
+        country: country,
+        service: service,
+        provider: operator,
+        price: price,
+      };
+      axios
+        .post("https://tatkalsms.azurewebsites.net/buy", data, config)
+        .then((response) => {
+          console.log(response);
+          setPurchase(true);
+          setOrderId(response.data.id)
+          setNumber(response.data.phone);
+          setBuying(false);
+        })
+        .catch((error) => {
+          setBuying(false);
+          let code = error.response.status;
+          if (code === 610) toast.error("Snap! Something Horrible Happend 🫤");
+          else if (code === 600) toast.error("Numbers out of Stock");
+          else if (code === 601) toast.error("Low on Balance");
+        });
     }
-    
-  }
+  };
+
+  //  Handle Cancel
+  const HandleCancel = () => {
+    setBuying(true);
+    if(!purchase){
+      setBuying(false);
+      toast.error("No Active Numbers")
+
+    }
+    else if ((sms.length === 0)) {
+      setBuying(true);
+
+     
+      axios
+        .post("https://tatkalsms.azurewebsites.net/cancel", {orderid:orderId}, config)
+        .then((response) => {
+          setBuying(false);
+          toast.success("Number Cancelled Successfully");
+          console.log(response);
+          setPurchase(false);
+          localStorage.removeItem("orderid");
+        })
+        .catch((error) => {
+          setBuying(false);
+          toast.error("Number Cannot Be Canceled");
+          console.log(error);
+        });
+    }
+    else{
+      setBuying(false);
+      toast.error("Otp Recived You cannot Canncel")
+    }
+  };
+
+  //  Handle Finish
+  const HandleFinish = () => {
+    setBuying(true);
+    if(!purchase){
+      setBuying(false);
+      toast.error("No Active Numbers")
+
+    }
+    else{
+    axios
+      .post("https://tatkalsms.azurewebsites.net/finish", {orderid:orderId}, config)
+      .then((response) => {
+        setBuying(false);
+        toast.success("Number Finished Successfully");
+        console.log(response);
+        setPurchase(false);
+        localStorage.removeItem("orderid");
+      })
+      .catch((error) => {
+        setBuying(false);
+        toast.error("Number Cannot Be Finished");
+        console.log(error);
+      });
+    }
+  };
+  //  Handle Ban
+
+  const HandleBan = () => {
+    setBuying(true);
+    if(!purchase){
+      setBuying(false);
+      toast.error("No Active Numbers")
+
+    }
+    else{
+    axios
+      .post("https://tatkalsms.azurewebsites.net/ban", {orderid:orderId}, config)
+      .then((response) => {
+        setBuying(false);
+        toast.success("Number Banned Successfully");
+        console.log(response);
+        setPurchase(false);
+        localStorage.removeItem("orderid");
+      })
+      .catch((error) => {
+        setBuying(false);
+        toast.error("Number Cannot Be Banned");
+        console.log(error);
+      });
+    }
+  };
+
+  // Handle Buynig Logic ALl Use Effects
 
 
-
-  // Handle Buynig Login
+  //  Buying UseEffect
   useEffect(() => {
-    if(operator)HandleBuy()
+    if (operator) HandleBuy();
   }, [operator, trigger]);
+
+  // Checking Sms UseEffect
+
+  // useEffect(()=>{
+  //   if(purchase){
+     
+  //     axios.post("https://tatkalsms.azurewebsites.net/sms", {orderId:orderId} , config)
+  //     .then((response))
+  //   }
+  // },[purchase])
+
+
+
+
+
+
+
+
 
 
 
@@ -308,79 +445,97 @@ const Products = ({ isLoggedIn, setLoggedIn }) => {
     setService(selectedService.value);
     setServiceData(countryData[selectedService.value]);
   };
-  
+
   return (
     <>
       {isLoggedIn && (
-        <Wrapper>
-          <Main width={"35%"}>
-            <Heading>Choose Country</Heading>
-            <Select
-              onChange={handleCountryChange}
-              value={options.find((option) => option.value === country)}
-              options={options}
-              styles={CountrSelectStyle}
-              placeholder="Select Country"
-              theme={(theme) => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary25: "#3A3A3A",
-                  primary: "black",
-                },
-              })}
+        <>
+          {" "}
+          <Modal display={isBuying ? "flex" : "none"}>
+            {" "}
+            <ClimbingBoxLoader
+              color="#d9ac6a"
+              size={26}
+              cssOverride={{
+                transform: "rotate(45deg)",
+              }}
             />
-            <Heading>Choose Service and Provider</Heading>
-            <Select
-              onChange={handleServiceChange}
-              value={options.find((option) => option.value === service)}
-              options={serviceOptions}
-              styles={ServiceSelectStyles}
-              placeholder="Select Service"
-              theme={(theme) => ({
-                ...theme,
-                colors: {
-                  ...theme.colors,
-                  primary25: "#3A3A3A",
-                  primary: "black",
-                },
-              })}
-            />
-            <ProviderDiv>
-              {serviceData &&
-                Object.keys(serviceData).map((key) => (
-                  
-                  <BuyButton key={key} onClick={()=> {
-                    
-                    setOperator(key)
-                    setPrice(parseInt(serviceData[key].cost + 24))
-                    setTrigger((trigger)=> trigger +=1)
-                  } }>
-                    {" "}
-                    Buy {key[0].toUpperCase() + key.slice(1, key.length)} -
-                    Price: {parseInt(serviceData[key].cost + 24)} Rs
-                  </BuyButton>
-                ))
-               
-                }
-               
-            </ProviderDiv>
-          </Main>
-          <Main width={"60%"} display={"none"}>
-            <OtpWrapper>
-              <Heading>Number:</Heading>
+          </Modal>
+          <Wrapper className={isBuying ? "blur" : ""}>
+            <Main width={"35%"}>
+              <Heading>Choose Country</Heading>
+              <Select
+                onChange={handleCountryChange}
+                value={options.find((option) => option.value === country)}
+                options={options}
+                styles={CountrSelectStyle}
+                placeholder="Select Country"
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#3A3A3A",
+                    primary: "black",
+                  },
+                })}
+              />
+              <Heading>Choose Service and Provider</Heading>
+              <Select
+                onChange={handleServiceChange}
+                value={options.find((option) => option.value === service)}
+                options={serviceOptions}
+                styles={ServiceSelectStyles}
+                placeholder="Select Service"
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#3A3A3A",
+                    primary: "black",
+                  },
+                })}
+              />
+              <ProviderDiv>
+                {serviceData &&
+                  Object.keys(serviceData).map((key) => (
+                    <BuyButton
+                      key={key}
+                      onClick={() => {
+                        setOperator(key);
+                        setPrice(parseInt(serviceData[key].cost + 24));
+                        setTrigger((trigger) => (trigger += 1));
+                      }}
+                    >
+                      {" "}
+                      Buy {key[0].toUpperCase() + key.slice(1, key.length)} -
+                      Price: {parseInt(serviceData[key].cost + 24)} Rs
+                    </BuyButton>
+                  ))}
+              </ProviderDiv>
+            </Main>
+            <Main width={"60%"} display={"none"}>
+              <OtpWrapper>
+                <Heading>Number:</Heading>
 
-              <NumberBox></NumberBox>
-              <Heading>SmS and Otps:</Heading>
-              <OtpDiv></OtpDiv>
-              <ButtonDiv>
-                <CustomButton>Cancel</CustomButton>
-                <CustomButton>Ban</CustomButton>
-                <CustomButton>Finish</CustomButton>
-              </ButtonDiv>
-            </OtpWrapper>
-          </Main>
-        </Wrapper>
+                <NumberBox>{number}</NumberBox>
+                <Heading>SmS and Otps:</Heading>
+
+                {sms &&
+                  sms.map((element) => (
+                    <OtpDiv>
+                      <span key={element}> {element} </span>
+                    </OtpDiv>
+                  ))}
+
+                <ButtonDiv>
+                  <CustomButton onClick={HandleCancel}>Cancel</CustomButton>
+                  <CustomButton onClick={HandleBan}>Ban</CustomButton>
+                  <CustomButton onClick={HandleFinish}>Finish</CustomButton>
+                </ButtonDiv>
+              </OtpWrapper>
+            </Main>
+          </Wrapper>
+        </>
       )}
     </>
   );
