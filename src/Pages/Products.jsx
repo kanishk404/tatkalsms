@@ -258,7 +258,6 @@ const Modal = styled.div`
 
 const Products = ({
   isLoggedIn,
-  setLoggedIn,
   purchase,
   setPurchase,
   isBuying,
@@ -300,11 +299,11 @@ const Products = ({
       axios
         .post("https://tatkalsms.azurewebsites.net/buy", data, config)
         .then((response) => {
-          console.log(response);
           setPurchase(true);
           setOrderId(response.data.id)
           setNumber(response.data.phone);
           setBuying(false);
+          toast.success("Number Purchased Sucessfully")
         })
         .catch((error) => {
           setBuying(false);
@@ -333,7 +332,7 @@ const Products = ({
         .then((response) => {
           setBuying(false);
           toast.success("Number Cancelled Successfully");
-          console.log(response);
+          setNumber(12345678)
           setPurchase(false);
           localStorage.removeItem("orderid");
         })
