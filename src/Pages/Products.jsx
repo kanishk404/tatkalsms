@@ -31,8 +31,8 @@ const Main = styled.div`
   padding: 2rem;
   text-align: center;
   transition: all 0.3s ease-in-out;
-
-  @media screen and (max-width: 1000px) {
+  display: ${(props) => props.waiting};
+  @media screen and (max-width: 800px) {
     width: 90%;
     display: ${(props) => props.display};
     padding: 20px;
@@ -162,7 +162,8 @@ const OtpDiv = styled.div`
 const CustomButton = styled.button`
   text-align: center;
   padding: 4px;
-  width: 15%;
+  width: 75px;
+  min-width: auto;
   height: 40px;
   margin-top: 16px;
   font-size: 16px;
@@ -261,6 +262,16 @@ const Products = ({
   purchase,
   setPurchase,
   isBuying,
+  setSms,
+  sms,
+  setOrderId,
+  orderId,
+  number,
+  setNumber,
+  waitingForSms,
+  setWaiting,
+
+
   setBuying = { setBuying },
 }) => {
   const navigate = useNavigate();
@@ -276,9 +287,7 @@ const Products = ({
   const [operator, setOperator] = useState("");
   const [price, setPrice] = useState(0);
   const [trigger, setTrigger] = useState(0);
-  const [number, setNumber] = useState(123456789);
-  const [orderId, setOrderId] = useState();
-  const [sms, setSms] = useState([]);
+  
 
   const config = {
     "Content-Type": "application/json",
@@ -302,6 +311,8 @@ const Products = ({
           setPurchase(true);
           setOrderId(response.data.id)
           setNumber(response.data.phone);
+          localStorage.setItem("number",response.data.phone)
+          localStorage.setItem("orderid",response.data.id)
           setBuying(false);
           toast.success("Number Purchased Sucessfully")
         })
@@ -312,6 +323,9 @@ const Products = ({
           else if (code === 600) toast.error("Numbers out of Stock");
           else if (code === 601) toast.error("Low on Balance");
         });
+    }
+    else{
+      toast.error("Number Already Active")
     }
   };
 
@@ -335,6 +349,7 @@ const Products = ({
           setNumber(12345678)
           setPurchase(false);
           localStorage.removeItem("orderid");
+          localStorage.removeItem("number")
         })
         .catch((error) => {
           setBuying(false);
@@ -365,6 +380,7 @@ const Products = ({
         console.log(response);
         setPurchase(false);
         localStorage.removeItem("orderid");
+        localStorage.removeItem("number")
       })
       .catch((error) => {
         setBuying(false);
@@ -391,6 +407,7 @@ const Products = ({
         console.log(response);
         setPurchase(false);
         localStorage.removeItem("orderid");
+        localStorage.removeItem("number")
       })
       .catch((error) => {
         setBuying(false);
@@ -410,13 +427,32 @@ const Products = ({
 
   // Checking Sms UseEffect
 
-  // useEffect(()=>{
-  //   if(purchase){
-     
-  //     axios.post("https://tatkalsms.azurewebsites.net/sms", {orderId:orderId} , config)
-  //     .then((response))
-  //   }
-  // },[purchase])
+  
+
+  useEffect(() => {
+    let intervalId;
+
+    if (purchase) {
+      
+      intervalId = setInterval(() => {
+        axios.post("https://tatkalsms.azurewebsites.net/sms", {orderid:489817289} , config)
+        .then((response)=>{
+          console.log(response.data.sms)
+          setSms(response.data.sms)
+        }).catch((error)=>{
+          toast.error("Some Error happend")
+        })
+      }, 10000);
+    } else {
+      
+      clearInterval(intervalId);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [purchase]);
+
 
 
 
@@ -461,7 +497,7 @@ const Products = ({
             />
           </Modal>
           <Wrapper className={isBuying ? "blur" : ""}>
-            <Main width={"35%"}>
+            <Main width={"35%"} waiting={""}>
               <Heading>Choose Country</Heading>
               <Select
                 onChange={handleCountryChange}
@@ -522,7 +558,7 @@ const Products = ({
                 {sms &&
                   sms.map((element) => (
                     <OtpDiv>
-                      <span key={element}> {element} </span>
+                      <span key={element.code}>Sender :  {element.sender}. Otp:  {element.code} </span>
                     </OtpDiv>
                   ))}
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LogoImg from "../assets/smartphone.png";
-
+import { Link } from "react-router-dom";
 const Wrapper = styled.div`
   margin-top: 1rem;
   display: flex;
@@ -46,9 +46,7 @@ const DetailsDiv = styled.div`
 const Profile = styled.div``;
 const Username = styled.h4``;
 const Balance = styled.div``;
-const Link = styled.i`
-  text-decoration: none;
-`;
+
 
 const LogoImage = styled.img`
   width: 35px;
@@ -78,6 +76,7 @@ const Navbar = ({ isLoggedIn, setLoggedIn, username, balance, isBuying }) => {
               <Username>{username}</Username>
               <Balance>{balance}</Balance>
               <Profile></Profile>
+              <Link to="/activation-history">ActivationHistory</Link>
 
               <GetStarted onClick={handleLogout}>Log-Out</GetStarted>
             </DetailsDiv>

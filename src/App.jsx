@@ -8,6 +8,7 @@ import Products from './Pages/Products';
 import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
+import ActivationHistory from './Pages/ActivationHistory';
 
 
 
@@ -19,7 +20,10 @@ function App() {
   const [balance, setBalance] = useState()
   const [purchase , setPurchase] = useState(false)
   const [isBuying, setBuying] = useState(false);
-  
+  const [number, setNumber] = useState(123456789);
+  const [orderId, setOrderId] = useState();
+  const [sms, setSms] = useState([]);
+  const [waitingForSms, setWaiting] = useState(false)
   
   useEffect(()=>{
     const storedToken = localStorage.getItem('token');
@@ -36,11 +40,17 @@ function App() {
         setLoggedIn(true);
         setBalance(localStorage.getItem('balance'));
         setUserName(localStorage.getItem('username'));
+       
+      }
+      if(localStorage.getItem("number")){
+        setNumber(localStorage.getItem("number"))
+        setOrderId(localStorage.getItem("orderid"))
+        setPurchase(true)
       }
     }
   
       
-  },[isLoggedIn])
+  },[isLoggedIn, purchase])
 
   return (
     
@@ -52,8 +62,8 @@ function App() {
     <Routes>
       <Route path='/' element={<Home isLoggedIn={isLoggedIn}/>}/>
       <Route path='/login' element={<LoginRegistar  isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />}/>
-      <Route path='/dashboard' element={<Products isBuying={isBuying} setBuying={setBuying} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} purchase={purchase} setPurchase={setPurchase}/>} />
-      
+      <Route path='/dashboard' element={<Products setWaiting waitingForSms sms={sms} setSms={setSms} number={number} setNumber={setNumber}  orderId={orderId} setOrderId={setOrderId} isBuying={isBuying} setBuying={setBuying} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} purchase={purchase} setPurchase={setPurchase}/>} />
+      <Route path='/activation-history' element={<ActivationHistory  isBuying={isBuying} setBuying={setBuying} />}/>
     </Routes>
   
   </Router>
