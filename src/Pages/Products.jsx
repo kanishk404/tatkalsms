@@ -435,9 +435,8 @@ const Products = ({
     if (purchase) {
       
       intervalId = setInterval(() => {
-        axios.post("https://tatkalsms.azurewebsites.net/sms", {orderid:489817289} , config)
+        axios.post("https://tatkalsms.azurewebsites.net/sms", {orderid:orderId} , config)
         .then((response)=>{
-          console.log(response.data.sms)
           setSms(response.data.sms)
         }).catch((error)=>{
           toast.error("Some Error happend")

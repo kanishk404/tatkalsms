@@ -122,7 +122,7 @@ const ActivationHistory = ({ setBuying, isBuying }) => {
         },
       };
       axios
-        .post("http://127.0.0.1:8181/orders", {}, config)
+        .post("https://tatkalsms.azurewebsites.net/orders", {}, config)
         .then((response) => {
           setOrders(response.data.data);
           setBuying(false);
