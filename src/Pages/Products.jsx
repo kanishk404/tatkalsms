@@ -496,7 +496,7 @@ const Products = ({
             />
           </Modal>
           <Wrapper className={isBuying ? "blur" : ""}>
-            <Main width={"35%"} waiting={""}>
+            <Main width={"35%"} waiting={purchase ?"none": ""}>
               <Heading>Choose Country</Heading>
               <Select
                 onChange={handleCountryChange}
@@ -547,7 +547,7 @@ const Products = ({
                   ))}
               </ProviderDiv>
             </Main>
-            <Main width={"60%"} display={"none"}>
+            <Main width={"60%"} display={purchase?"":"none"}>
               <OtpWrapper>
                 <Heading>Number:</Heading>
 

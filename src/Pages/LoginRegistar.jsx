@@ -84,6 +84,11 @@ const Button = styled.button`
     font-size: 16px;
     height: 32px;
   }
+  @media screen and (max-width: 1000px) {
+    font-size: 16px;
+    height: 32px;
+    width: 60%;
+  }
 `;
 
 const BottomNote = styled.small`
@@ -277,7 +282,7 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
                 <PasswordViewer
                   onClick={HandleVisible}
                   key={isVisible}
-                  src={isVisible ? hide : view}
+                  src={isVisible ? view : hide}
                 />
               </PasswordContainer>
               <Button onClick={HandleRegister}>

@@ -156,7 +156,7 @@ const ActivationHistory = ({ setBuying, isBuying }) => {
       <Wrapper className={isBuying ? "blur" : ""}>
         <Main>
           <Bottom>
-            {orders.map((order) => (
+            {orders.slice().reverse().map((order) => (
               <Content key={order.id}>
                 <OrderId>{order.id}</OrderId>
                 <Phone>{order.phone}</Phone>

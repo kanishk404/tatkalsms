@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LogoImg from "../assets/smartphone.png";
 import { Link } from "react-router-dom";
+import Menu from "./Example"
 const Wrapper = styled.div`
   margin-top: 1rem;
   display: flex;
@@ -14,7 +15,14 @@ const Left = styled.div`
   align-items: center;
   cursor: pointer;
 `;
-const Right = styled.div``;
+const Right = styled.div`
+display: "flex";
+@media screen and (max-width: 800px) {
+    width: 90%;
+    display: ${(props) => props.display};
+    padding: 20px;
+    margin-right: 10px;
+}`;
 
 const Logo = styled.h2`
   padding: 0;
@@ -65,19 +73,21 @@ const Navbar = ({ isLoggedIn, setLoggedIn, username, balance, isBuying }) => {
   };
   return (
     <>
+     <Menu balance={balance} setLoggedIn={setLoggedIn} isLoggedIn={isLoggedIn}/>
       <Wrapper className={isBuying ? "blur" : ""}>
+     
         <Left onClick={() => navigate("/")}>
           <Logo>Tatkal</Logo>
           <LogoImage src={LogoImg} />
         </Left>
-        <Right>
+        <Right display="none">
           {isLoggedIn ? (
             <DetailsDiv>
+            <Link to="/activation-history">Orders</Link>
               <Username>{username}</Username>
-              <Balance>{balance}</Balance>
+              <Balance>Rs.{balance}  </Balance>
               <Profile></Profile>
-              <Link to="/activation-history">ActivationHistory</Link>
-
+              
               <GetStarted onClick={handleLogout}>Log-Out</GetStarted>
             </DetailsDiv>
           ) : (
