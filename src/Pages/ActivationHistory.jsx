@@ -53,6 +53,10 @@ const Top = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  @media screen and (max-width: 1000px) {
+
+    margin-top: 20px;
+  }
 `;
 const Bottom = styled.div`
   display: flex;
@@ -62,6 +66,11 @@ const Bottom = styled.div`
 `;
 const Heading = styled.h3`
   padding: 0;
+
+  @media screen and (max-width: 1000px) {
+    font-size: 10px;
+    
+  }
 `;
 const Content = styled.div`
   display: flex;
@@ -69,41 +78,17 @@ const Content = styled.div`
   text-align: center;
   align-items: center;
 `;
-const OrderId = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
+
 const Phone = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-`;
-const Service = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
-const CreatedAt = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
-const Status = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
-const Otp = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+
+  @media screen and (max-width: 1000px) {
+    font-size: 10px;
+    
+  }
 `;
 
 const ActivationHistory = ({ setBuying, isBuying }) => {
@@ -150,7 +135,6 @@ const ActivationHistory = ({ setBuying, isBuying }) => {
         <Heading>Phone </Heading>
         <Heading>Service</Heading>
         <Heading>Status</Heading>
-        <Heading>Created At</Heading>
         <Heading>Otps</Heading>
       </Top>
       <Wrapper className={isBuying ? "blur" : ""}>
@@ -158,12 +142,11 @@ const ActivationHistory = ({ setBuying, isBuying }) => {
           <Bottom>
             {orders.slice().reverse().map((order) => (
               <Content key={order.id}>
-                <OrderId>{order.id}</OrderId>
+                <Phone>{order.id}</Phone>
                 <Phone>{order.phone}</Phone>
-                <Service>{order.product}</Service>
-                <Status>{order.status}</Status>
-                <CreatedAt>{order.created_at}</CreatedAt>
-                <Otp>{order.sms.length}</Otp>
+                <Phone>{order.product}</Phone>
+                <Phone>{order.status}</Phone>
+                <Phone>{order.sms.length}</Phone>
               </Content>
             ))}
           </Bottom>

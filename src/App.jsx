@@ -58,7 +58,7 @@ function App() {
 
 
   <Router  >
-  <Navbar key={isLoggedIn} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} username={username} balance={balance} isBuying={isBuying} setBuying={setBuying}/>
+  <Navbar key={isLoggedIn} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} purchase={purchase}   username={username} balance={balance} isBuying={isBuying} setBuying={setBuying}/>
     <Routes>
       <Route path='/' element={<Home isLoggedIn={isLoggedIn}/>}/>
       <Route path='/login' element={<LoginRegistar  isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />}/>

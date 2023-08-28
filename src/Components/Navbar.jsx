@@ -61,7 +61,7 @@ const LogoImage = styled.img`
   margin-left: 0.4rem;
 `;
 
-const Navbar = ({ isLoggedIn, setLoggedIn, username, balance, isBuying }) => {
+const Navbar = ({ isLoggedIn, setLoggedIn, username, balance, isBuying ,purchase}) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -73,7 +73,7 @@ const Navbar = ({ isLoggedIn, setLoggedIn, username, balance, isBuying }) => {
   };
   return (
     <>
-     <Menu balance={balance} setLoggedIn={setLoggedIn} isLoggedIn={isLoggedIn}/>
+     <Menu balance={balance} setLoggedIn={setLoggedIn} isLoggedIn={isLoggedIn} purchase={purchase}/>
       <Wrapper className={isBuying ? "blur" : ""}>
      
         <Left onClick={() => navigate("/")}>

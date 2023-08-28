@@ -8,7 +8,7 @@ import {
 } from "../styles/SelectStyles.js";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ClimbingBoxLoader } from "react-spinners";
+import { ClimbingBoxLoader,ScaleLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
@@ -553,7 +553,13 @@ const Products = ({
 
                 <NumberBox>{number}</NumberBox>
                 <Heading>SmS and Otps:</Heading>
-
+                 {sms.length ===0 && purchase && (
+                  <>
+                    Waiting for sms....
+                    <ClimbingBoxLoader cssOverride={{
+                transform: "rotate(45deg)",
+              }} color="#d9ac6a"/>
+                    </>)}     
                 {sms &&
                   sms.map((element) => (
                     <OtpDiv>

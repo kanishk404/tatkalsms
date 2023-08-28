@@ -1,16 +1,24 @@
 import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import { Link, useNavigate } from 'react-router-dom';
-const Example = ({setLoggedIn,balance,isLoggedIn}) => {
+import { toast } from 'react-toastify';
+const Example = ({setLoggedIn,balance,isLoggedIn,purchase}) => {
   const navigate = useNavigate()
   
 
   const handleLogout = () => {
+    if(purchase){
+      toast.error("Cannot Log-out Number Active")
+    }
+    else{
+
+    
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("balance");
     setLoggedIn(false);
     navigate("/");
+  }
   };
 
   return (
