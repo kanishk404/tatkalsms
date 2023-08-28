@@ -108,7 +108,7 @@ display: "flex";
 `,D5=ve.div``,L5=ve.h4``,$5=ve.div``,B5=ve.img`
   width: 35px;
   margin-left: 0.4rem;
-`,z5=({isLoggedIn:e,setLoggedIn:t,username:n,balance:r,isBuying:o,purchase:i})=>{const a=Ir(),s=()=>{localStorage.removeItem("token"),localStorage.removeItem("username"),localStorage.removeItem("balance"),t(!1),a("/")};return q.jsxs(q.Fragment,{children:[q.jsx(_5,{balance:r,setLoggedIn:t,isLoggedIn:e,purchase:i}),q.jsxs(A5,{className:o?"blur":"",children:[q.jsxs(I5,{onClick:()=>a("/"),children:[q.jsx(M5,{children:"Tatkal"}),q.jsx(B5,{src:Q3})]}),q.jsx(R5,{display:"none",children:e?q.jsxs(N5,{children:[q.jsx(Ho,{to:"/activation-history",children:"Orders"}),q.jsx(L5,{children:n}),q.jsxs($5,{children:["Rs.",r,"  "]}),q.jsx(D5,{}),q.jsx(up,{onClick:s,children:"Log-Out"})]}):q.jsx(up,{onClick:()=>{a("/login")},children:"Log-in / Sign-Up"})})]})]})},j5="/assets/image-8b327a51.png",V5=ve.div`
+`,z5=({isLoggedIn:e,setLoggedIn:t,username:n,balance:r,isBuying:o,purchase:i})=>{const a=Ir(),s=()=>{localStorage.removeItem("token"),localStorage.removeItem("username"),localStorage.removeItem("balance"),t(!1),a("/")};return q.jsxs(q.Fragment,{children:[q.jsx(_5,{balance:r,setLoggedIn:t,isLoggedIn:e,purchase:i}),q.jsxs(A5,{className:o?"blur":"",children:[q.jsxs(I5,{onClick:()=>a("/"),children:[q.jsx(M5,{children:"Tatkal"}),q.jsx(B5,{src:Q3})]}),q.jsx(R5,{display:"none",children:e?q.jsxs(N5,{children:[q.jsx(Ho,{className:"order-link",to:"/activation-history",children:"Orders"}),q.jsx(L5,{children:n}),q.jsxs($5,{children:["Rs.",r,"  "]}),q.jsx(D5,{}),q.jsx(up,{onClick:s,children:"Log-Out"})]}):q.jsx(up,{onClick:()=>{a("/login")},children:"Log-in / Sign-Up"})})]})]})},j5="/assets/image-8b327a51.png",V5=ve.div`
   display: flex;
  
   align-items: center;
