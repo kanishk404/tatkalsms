@@ -9,6 +9,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import jwt_decode from 'jwt-decode';
 import ActivationHistory from './Pages/ActivationHistory';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
+import TermsAndConditions from './Pages/TermsAndCondition';
+import Refund from './Pages/Refund';
 
 
 
@@ -64,6 +67,9 @@ function App() {
       <Route path='/login' element={<LoginRegistar  isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />}/>
       <Route path='/dashboard' element={<Products setWaiting waitingForSms sms={sms} setSms={setSms} number={number} setNumber={setNumber}  orderId={orderId} setOrderId={setOrderId} isBuying={isBuying} setBuying={setBuying} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} purchase={purchase} setPurchase={setPurchase}/>} />
       <Route path='/activation-history' element={<ActivationHistory  isBuying={isBuying} setBuying={setBuying} />}/>
+      <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
+      <Route path='/terms-conditions' element={<TermsAndConditions/>} />
+      <Route path='/refund' element={<Refund/>} />
     </Routes>
   
   </Router>

@@ -83,7 +83,7 @@ const Navbar = ({ isLoggedIn, setLoggedIn, username, balance, isBuying ,purchase
         <Right display="none">
           {isLoggedIn ? (
             <DetailsDiv>
-            <Link to="/activation-history">Orders</Link>
+            <Link className="order-link"to="/activation-history">Orders</Link>
               <Username>{username}</Username>
               <Balance>Rs.{balance}  </Balance>
               <Profile></Profile>

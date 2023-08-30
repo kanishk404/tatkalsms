@@ -194,7 +194,11 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
           toast.error(error.response.data.message + "🫤");
         } else if (error.response.status === 401) {
           toast.error(error.response.data.message + "🤯");
-        } else {
+        }
+        else if(error.response.status===611){
+          toast.error(error.response.data.message + "🫤");
+        } 
+        else {
           toast.error(error.response.data.message + "🥲");
         }
       });
@@ -213,7 +217,10 @@ const LoginRegistar = ({ isLoggedIn, setLoggedIn }) => {
       })
       .catch((error) => {
         setLoading(false);
-        toast(error.response.data.message + "😒", { position: "top-center" });
+        if(error.response.status===611){
+          toast.error(error.response.data.message + "🫤");
+        } 
+        else toast(error.response.data.message + "😒", { position: "top-center" });
       });
   };
 

@@ -78,3 +78,13 @@ body{
   text-align: center; /* Center align the text */
 }
 
+
+.order-link{
+   text-decoration: none;
+   cursor: pointer;
+   color: white;
+}
+
+.order-link:hover{
+  transform: scale(1.1);
+}
